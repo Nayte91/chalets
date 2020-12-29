@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  server:
+    container_name: chalets-caddy
+    image: caddy
+    depends_on:
+      - backend
+    volumes:
+      - ./:/app
+      - ./system/server/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.chalets.rule: Host(`cc.anagraph.org`)
+      traefik.http.routers.chalets.entrypoints: web
+
+  backend:
+    container_name: chalets-php
+    build:
+      context: .
+      dockerfile: system/backend/Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - .:/app
+
+  database:
+    container_name: chalets-mariadb
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chalets
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mysql_data:
+
+networks:
+  default:
+    external:
+      name: proxy

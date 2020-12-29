@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  server:
+    container_name: eventus-caddy
+    image: caddy:alpine
+    depends_on:
+      - backend
+    volumes:
+      - ./:/app
+      - ./system/server/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.blog.rule: Host(`eventus.localhost`)
+      traefik.http.routers.blog.entrypoints: web
+    ports:
+      - "8000:80"
+
+  backend:
+    container_name: eventus-php
+    build:
+      context: .
+      dockerfile: system/backend/Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - .:/app
+      - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
+
+  database:
+    container_name: eventus-mariadb
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: eventus
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  default:
+    external:
+      name: proxy

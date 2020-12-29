@@ -1,0 +1,31 @@
+/*
+Theme Name: caviar
+Description: Caviar basé sur relia
+Author: Nayte - C&C
+Author URI: https://oc.anagraph.org
+Template: relia 
+Version: 0.1.0
+*/
+
+.posted-on{
+    display: none;
+}
+
+@media screen and (min-width: 991px) {
+    .has-2-columns {
+        display: flex;
+    }
+
+    .wp-block-column {
+        flex: 50%;
+    }
+
+    .entry-title, h3 {
+        text-align: center;
+    }
+}
+
+.entry-title, h3, h4
+{
+    font-weight: bold;
+}
