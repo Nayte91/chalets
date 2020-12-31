@@ -25,7 +25,7 @@ define('DB_USER', "root");
 define('DB_PASSWORD', "root");
 
 /** MySQL hostname */
-define('DB_HOST', "database" . ':' . '3306');
+define('DB_HOST', "chalets-mariadb" . ':' . '3306');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

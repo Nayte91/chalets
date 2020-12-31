@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.4"
 
 services:
   server:
@@ -13,8 +13,7 @@ services:
       - caddy_config:/config
     labels:
       traefik.enable: true
-      traefik.http.routers.chalets.rule: Host(`cc.anagraph.org`)
-      traefik.http.routers.chalets.entrypoints: web
+      traefik.http.routers.chalets.rule: Host(`chalets.localhost`)
 
   backend:
     container_name: chalets-php
